@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO₂ Emission Predictor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Panel: Model Info -->
+        <div class="info-panel">
+            <div class="content-wrapper">
+                <h1>CO₂ Predictor</h1>
+                <p class="subtitle">Powered by AI</p>
+
+                <div class="model-card">
+                    <h2>Model Information</h2>
+                    <div class="stat-row">
+                        <span class="label">Model:</span>
+                        <span class="value">RandomForestRegressor</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">MAE:</span>
+                        <span class="value" id="mae-value">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">R² Score:</span>
+                        <span class="value" id="r2-value">--</span>
+                    </div>
+                </div>
+
+                <div class="description">
+                    <p>Enter the vehicle details to estimate its CO₂ emissions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Input Form -->
+        <div class="form-panel">
+            <h2>Vehicle Parameters</h2>
+            <form id="prediction-form">
+                <div class="input-group">
+                    <label for="model-year">Model Year (1995-2025)</label>
+                    <input type="number" id="model-year" step="1" min="1995" max="2025" placeholder="e.g. 2022"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <label for="engine-size">Engine Size (L)</label>
+                    <input type="number" id="engine-size" step="0.1" placeholder="e.g. 2.0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="cylinders">Cylinders</label>
+                    <input type="number" id="cylinders" step="1" placeholder="e.g. 4" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="fuel-type">Fuel Type</label>
+                    <select id="fuel-type" required>
+                        <option value="" disabled selected>Select Fuel Type</option>
+                        <option value="X">X (Regular gasoline)</option>
+                        <option value="Z">Z (Premium gasoline)</option>
+                        <option value="D">D (Diesel)</option>
+                        <option value="E">E (Ethanol (E85))</option>
+                        <option value="N">N (Natural gas)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="transmission">Transmission</label>
+                    <select id="transmission" required>
+                        <option value="" disabled selected>Select Transmission</option>
+                        <option value="A3">A3</option>
+                        <option value="A4">A4</option>
+                        <option value="A5">A5</option>
+                        <option value="A6">A6</option>
+                        <option value="A7">A7</option>
+                        <option value="A8">A8</option>
+                        <option value="A9">A9</option>
+                        <option value="A10">A10</option>
+                        <option value="AM5">AM5</option>
+                        <option value="AM6">AM6</option>
+                        <option value="AM7">AM7</option>
+                        <option value="AM8">AM8</option>
+                        <option value="AM9">AM9</option>
+                        <option value="AS4">AS4</option>
+                        <option value="AS5">AS5</option>
+                        <option value="AS6">AS6</option>
+                        <option value="AS7">AS7</option>
+                        <option value="AS8">AS8</option>
+                        <option value="AS9">AS9</option>
+                        <option value="AS10">AS10</option>
+                        <option value="AV">AV</option>
+                        <option value="AV1">AV1</option>
+                        <option value="AV6">AV6</option>
+                        <option value="AV7">AV7</option>
+                        <option value="AV8">AV8</option>
+                        <option value="AV10">AV10</option>
+                        <option value="M4">M4</option>
+                        <option value="M5">M5</option>
+                        <option value="M6">M6</option>
+                        <option value="M7">M7</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="vehicle-class">Vehicle Class</label>
+                    <select id="vehicle-class" required>
+                        <option value="" disabled selected>Select Vehicle Class</option>
+                        <option value="Compact">Compact</option>
+                        <option value="Full-size">Full-size</option>
+                        <option value="Mid-size">Mid-size</option>
+                        <option value="Minicompact">Minicompact</option>
+                        <option value="Minivan">Minivan</option>
+                        <option value="Pickup truck: Small">Pickup truck: Small</option>
+                        <option value="Pickup truck: Standard">Pickup truck: Standard</option>
+                        <option value="Special purpose vehicle">Special purpose vehicle</option>
+                        <option value="Sport utility vehicle">Sport utility vehicle</option>
+                        <option value="Sport utility vehicle: Small">Sport utility vehicle: Small</option>
+                        <option value="Sport utility vehicle: Standard">Sport utility vehicle: Standard</option>
+                        <option value="Station wagon: Mid-size">Station wagon: Mid-size</option>
+                        <option value="Station wagon: Small">Station wagon: Small</option>
+                        <option value="Subcompact">Subcompact</option>
+                        <option value="Two-seater">Two-seater</option>
+                        <option value="Van: Cargo">Van: Cargo</option>
+                        <option value="Van: Passenger">Van: Passenger</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="predict-btn">Predict Emission</button>
+            </form>
+
+            <div id="result-container" class="hidden">
+                <h3>Predicted CO₂ Emission</h3>
+                <div class="result-value">
+                    <span id="prediction-output">0</span>
+                    <span class="unit">g/km</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
