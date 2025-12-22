@@ -8,9 +8,14 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
+import os
+
 # 1. Load Data
-# Updated path to match user requirements
-DATA_PATH = r"C:\Users\husse\OneDrive\Desktop\web_app_CO2 emission_from_cars\data\RF_shuffled_data.xlsx"
+# Define base directory (where this script is located: backend/)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Data is in ../data/RF_shuffled_data.xlsx relative to backend/
+DATA_PATH = os.path.join(BASE_DIR, '..', 'data', 'RF_shuffled_data.xlsx')
+
 print(f"Loading data from {DATA_PATH}...")
 df = pd.read_excel(DATA_PATH)
 
@@ -65,7 +70,7 @@ print(f"Mean Absolute Error (MAE): {mae:.4f}")
 print(f"R2 Score: {r2:.4f}")
 
 # 8. Save Model
-model_filename = r"C:\Users\husse\OneDrive\Desktop\web_app_CO2 emission_from_cars\backend\rf_model.joblib"
+model_filename = os.path.join(BASE_DIR, 'rf_model.joblib')
 joblib.dump(model_pipeline, model_filename)
 print(f"Model saved to {model_filename}")
 
@@ -74,6 +79,7 @@ metrics = {
     "mae": round(mae, 2),
     "r2": round(r2, 4)
 }
-with open(r"C:\Users\husse\OneDrive\Desktop\web_app_CO2 emission_from_cars\backend\metrics.json", "w") as f:
+metrics_filename = os.path.join(BASE_DIR, 'metrics.json')
+with open(metrics_filename, "w") as f:
     json.dump(metrics, f)
 print("Metrics saved to metrics.json")
