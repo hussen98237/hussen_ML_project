@@ -10,6 +10,10 @@ import hashlib
 import logging
 import time
 from collections import defaultdict
+from dotenv import load_dotenv
+
+# Load Environment Variables from .env file in the same directory
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # Configure Logging
 logging.basicConfig(
@@ -26,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.getenv('MODEL_PATH', os.path.join(BASE_DIR, "rf_model.joblib"))
 METRICS_PATH = os.getenv('METRICS_PATH', os.path.join(BASE_DIR, "metrics.json"))
 ALLOWED_ORIGINS = json.loads(os.getenv('ALLOWED_ORIGINS', '["*"]'))
-API_KEY = os.getenv('API_KEY', 'change_me_to_a_secure_key') # Default for dev, warn in prod
+API_KEY = os.getenv('API_KEY', 'c9f3c8a1d7b4e2f6a5d0c9e8b7a1f4c3e6d2b0a9c8f5e7d4b1a6c3e2f9') # Default for dev, warn in prod
 MODEL_HASH_SHA256 = os.getenv('MODEL_HASH_SHA256')
 
 # 2. CORS
