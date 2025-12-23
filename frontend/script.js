@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Send Request
             // NOTE: In a real production app, this key should not be hardcoded. 
             // It should be injected during deployment or the frontend should be served by the backend.
-            const API_KEY = 'c9f3c8a1d7b4e2f6a5d0c9e8b7a1f4c3e6d2b0a9c8f5e7d4b1a6c3e2f9';
+            const API_KEY = 'change_me_to_a_secure_key';
 
             const response = await fetch(API_URL, {
                 method: 'POST',
