@@ -68,7 +68,7 @@ print(f"Mean Absolute Error (MAE): {mae:.4f}")
 print(f"R2 Score: {r2:.4f}")
 
 # 8. Save Model
-model_filename = r"C:\Users\husse\OneDrive\Desktop\web_app_CO2 emission_from_cars\backend\rf_model.joblib"
+model_filename = os.path.join(BASE_DIR, 'rf_model.joblib')
 joblib.dump(model_pipeline, model_filename)
 print(f"Model saved to {model_filename}")
 
@@ -77,6 +77,7 @@ metrics = {
     "mae": round(mae, 2),
     "r2": round(r2, 4)
 }
-with open(r"C:\Users\husse\OneDrive\Desktop\web_app_CO2 emission_from_cars\backend\metrics.json", "w") as f:
+metrics_path = os.path.join(BASE_DIR, 'metrics.json')
+with open(metrics_path, "w") as f:
     json.dump(metrics, f)
 print("Metrics saved to metrics.json")
