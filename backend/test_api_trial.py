@@ -9,7 +9,7 @@ api_key = os.getenv("API_KEY")
 url = "http://localhost:8000/predict"
 # 3. Define the Headers (The "Key")
 headers = {
-    "x-api-key": 'change_me_to_a_secure_key'
+    "x-api-key": '18f4b97dc6e168ffa0be33546e2dec65fd73f0abd65a3d13aa9a607e83ec3e72'
 }
 # 4. Define the Data (The Car Features)
 data = {
@@ -23,6 +23,16 @@ data = {
 try:
     # 5. Send the POST request
     response = requests.post(url, json=data, headers=headers)
+    # check if api key is empty
+    if api_key == '' or headers['x-api-key'] == '':
+        print("api key is empty")
+        exit()
+    # check if api key is valid
+    if api_key == headers['x-api-key']:
+        print("api key is valid")
+    else:
+        print("api key is invalid")
+        exit()
     # 6. Check the result
     if response.status_code == 200:
         print("Success! Prediction:", response.json())

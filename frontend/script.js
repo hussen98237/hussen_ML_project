@@ -29,15 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // 3. Send Request
-            // NOTE: In a real production app, this key should not be hardcoded. 
-            // It should be injected during deployment or the frontend should be served by the backend.
-            const API_KEY = 'change_me_to_a_secure_key';
-
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': API_KEY
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(payload)
             });

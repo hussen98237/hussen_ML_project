@@ -15,12 +15,21 @@ Before you begin, ensure you have the following installed on your system:
 *   **Python 3.8+**
 *   **pip** (Python package installer)
 ## 📦 Installation & Setup
+
 1.  **Clone the repository** (or download the source code):
     ```bash
     git clone <repository-url>
     cd web_app_CO2_emission_from_cars
     ```
-2.  **Create a virtual environment** (recommended):
+
+2.  **Setup Environment Variables**:
+    *   Duplicate the example configuration file:
+        ```bash
+        cp backend/.env.example backend/.env
+        ```
+    *   Open `backend/.env` and set your `API_KEY`. The default key in the example is just a placeholder—use a strong random string.
+
+3.  **Create a virtual environment** (recommended):
     ```bash
     python -m venv venv
     
@@ -30,38 +39,40 @@ Before you begin, ensure you have the following installed on your system:
     # macOS/Linux
     source venv/bin/activate
     ```
-3.  **Install dependencies**:
-    You will need the following libraries. You can install them manually:
+
+4.  **Install dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
-## 🧠 Training the Model
-The project comes with a training script to generate the Machine Learning model.
+
+## 🧠 Training the Model & Security Setup
+This project employs **integrity checks** for the Machine Learning model. You **must** generate the model and its hash before running the server.
+
 1.  Ensure your dataset is located at `data/RF_shuffled_data.xlsx`.
 2.  Run the training script:
     ```bash
     python backend/train_model.py
     ```
-    *   This will train the Random Forest Regressor.
-    *   Save the model to `backend/rf_model.joblib`.
-    *   Save evaluation metrics to `backend/metrics.json`.
+3.  **CRITICAL STEP**:
+    *   The script will output a **SHA256 Hash** in the terminal (e.g., `Model SHA256 Hash: c9f3c8...`).
+    *   Copy this hash.
+    *   Open `backend/.env` and paste it into the `MODEL_HASH_SHA256` variable.
+    *   *If this step is skipped, the backend will refuse to load the model.*
+
 ## 🏃‍♂️ How to Run the Application
-1.  **Start the Backend API**:
-    Navigate to the project root and run:
-    ```bash
-    python backend/main.py
-    ```
-    *   The API will start at `http://localhost:8000`.
-    *   You can access the automatic API docs at `http://localhost:8000/docs`.
-2.  **Launch the Frontend**:
-    *   Open the `frontend` folder.
-    *   Double-click `index.html` to open it in your web browser.
-    *   Alternatively, you can serve it with a simple HTTP server:
-        ```bash
-        cd frontend
-        python -m http.server 3000
-        ```
-        Then visit `http://localhost:3000`.
+
+### 1. Start the Backend API
+Navigate to the project root and run:
+```bash
+python backend/main.py
+```
+*   The API will start at `http://localhost:8000`.
+*   You will see logs confirming configuration loading and model integrity verification.
+
+### 2. Launch the Frontend
+*   Open the `frontend` folder.
+*   Double-click `index.html` to open it in your web browser.
+*   **Note**: The frontend has been configured to use the API Key for demonstration. In a real production environment, you would not hardcode keys in client-side JavaScript.
 ## 📂 Project Structure
 ```
 ├── backend/

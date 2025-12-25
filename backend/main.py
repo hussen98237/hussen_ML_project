@@ -65,12 +65,30 @@ def calculate_file_hash(filepath):
             sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
-async def get_api_key(api_key_header: str = Security(api_key_header)):
+async def get_api_key(
+    api_key_header: str = Security(api_key_header),
+    request: Request = None
+):
+    # 1. Check if API Key is valid (Highest Priority - for Scripts/Server-to-Server)
     if api_key_header == API_KEY:
         return api_key_header
+
+    # 2. Origin Check (Fallback - for Trusted Frontend)
+    # Browsers send 'Origin' header. Non-browsers can spoof it, but we combine this 
+    # with Rate Limiting to protect the public interface.
+    if request:
+        origin = request.headers.get("origin")
+        if origin and origin in ALLOWED_ORIGINS:
+            return "authorized_by_origin"
+        
+        # Allow requests from localhost/null (often used during local dev/double-click)
+        # IF configured to do so.
+        if origin is None and "null" in ALLOWED_ORIGINS:
+             return "authorized_by_null_origin"
+
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid or missing API Key",
+        detail="Invalid API Key or Unauthorized Origin or both",
     )
 
 async def rate_limiter(request: Request):
