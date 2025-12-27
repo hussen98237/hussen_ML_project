@@ -61,7 +61,7 @@ This project employs **integrity checks** for the Machine Learning model. You **
     *   The script will output a **SHA256 Hash** in the terminal (e.g., `Model SHA256 Hash: c9f3c8...`).
     *   Copy this hash.
     *   Open `backend/.env` and paste it into the `MODEL_HASH_SHA256` variable.
-    *   *If this step is skipped, the backend will refuse to load the model.*
+    *   *If this step is skipped, the backend will warn you and continue.*
 
 ## 🏃‍♂️ How to Run the Application
 

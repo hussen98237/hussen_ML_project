@@ -71,12 +71,12 @@ async def get_api_key(
 ):
     # 1. Check if API Key is valid (Highest Priority - for Scripts/Server-to-Server)
     if api_key_header == API_KEY:
-        return api_key_header
+        return "authorized_by_api_key"
 
     # 2. Origin Check (Fallback - for Trusted Frontend)
     # Browsers send 'Origin' header. Non-browsers can spoof it, but we combine this 
     # with Rate Limiting to protect the public interface.
-    if request:
+    if request: 
         origin = request.headers.get("origin")
         if origin and origin in ALLOWED_ORIGINS:
             return "authorized_by_origin"
