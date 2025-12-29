@@ -31,8 +31,7 @@ Before you begin, ensure you have the following installed on your system:
         ```bash
         cp backend/.env.example backend/.env
         ```
-    *   Open `backend/.env` and set your `API_KEY`. The default key in the example is just a placeholder—use a strong random string.
-
+    
 3.  **Create a virtual environment** (recommended):
     ```bash
     python -m venv venv
