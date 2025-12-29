@@ -69,10 +69,14 @@ async def get_api_key(
     api_key_header: str = Security(api_key_header),
     request: Request = None
 ):
-    # 1. Check if API Key is valid (Highest Priority - for Scripts/Server-to-Server)
-    if api_key_header == API_KEY:
-        return "authorized_by_api_key"
-
+    # lines from 72 to 79 works when you run test_api.py, but when you run prediction from frontend it doesn't work
+    if api_key_header:
+        #1. Check if API Key is valid (Highest Priority - for Scripts/Server-to-Server)
+        if api_key_header != API_KEY:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid API Key, please check your API key and try again.",
+            )
     # 2. Origin Check (Fallback - for Trusted Frontend)
     # Browsers send 'Origin' header. Non-browsers can spoof it, but we combine this 
     # with Rate Limiting to protect the public interface.
@@ -88,7 +92,7 @@ async def get_api_key(
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid API Key or Unauthorized Origin or both",
+        detail="Invalid API Key or Unauthorized Origin",
     )
 
 async def rate_limiter(request: Request):
